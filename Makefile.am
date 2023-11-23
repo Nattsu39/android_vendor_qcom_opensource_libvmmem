@@ -12,11 +12,17 @@ libvmmem_sources = vmmem.cpp vmmem_wrapper.cpp
 lib_LTLIBRARIES = libvmmem.la
 
 libvmmem_la_SOURCES := $(libvmmem_sources)
-libvmmem_la_CPPFLAGS := $(AM_CPPFLAGS) -Wno-error=pointer-to-int-cast
+libvmmem_la_CPPFLAGS := -I$(top_srcdir)/include
+libvmmem_la_CPPFLAGS += $(AM_CPPFLAGS) -Wno-error=pointer-to-int-cast
 
-# GCC interprets = (equals sign) as a path relative to sysroot
-libvmmem_la_CPPFLAGS += @LIBBASE_CFLAGS@ -I =${includedir}/vmmem
-libvmmem_la_LDFLAGS := @LIBBASE_LIBS@
+if MEMORY_HINT_DISABLED
+libvmmem_la_CPPFLAGS += -DNO_MEMORY_HINT
+endif
+
+# Export headers
+vmmem_includedir=$(includedir)
+vmmem_include_HEADERS := include/vmmem.h
+vmmem_include_HEADERS += include/vmmem_wrapper.h
 
 pkgconfigdir := $(libdir)/pkgconfig
 pkgconfig_DATA := libvmmem.pc

@@ -7,4 +7,4 @@ Name: libvmmem
 Description: libvmmem library
 Version: @VERSION@
 Libs: -L${libdir} -lvmmem
-Cflags: -I${includedir}/vmmem @CFLAGS@
+Cflags: -I${includedir}

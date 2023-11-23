@@ -19,14 +19,17 @@ AC_PROG_MAKE_SET
 PKG_PROG_PKG_CONFIG
 
 # Check for required libraries.
-PKG_CHECK_MODULES([LIBBASE], [libbase])
-AC_SUBST([LIBBASE_CFLAGS])
-AC_SUBST([LIBBASE_LIBS])
 
 AC_ARG_WITH(sanitized-headers,
         AS_HELP_STRING([--with-sanitized-headers=DIR],
                 [Specify the location of the sanitized Linux headers]),
         [CPPFLAGS="$CPPFLAGS -I $withval"])
+
+AC_ARG_ENABLE([dynamic_memresize],
+[  --enable-dynamic_memresize   Disables MemoryHint API],
+[case "${enableval}" in yes) dynamic_memresize=true ;; no)  dynamic_memresize=false ;; *) AC_MSG_ERROR([bad value ${enableval} for --enable-dynamic_memresize]) ;; esac],
+[dynamic_memresize=false])
+AM_CONDITIONAL([MEMORY_HINT_DISABLED], [test x$dynamic_memresize = xtrue])
 
 AC_CONFIG_FILES([ \
     Makefile \
