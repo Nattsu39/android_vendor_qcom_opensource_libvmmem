@@ -1,0 +1,27 @@
+cc_library {
+    srcs: [
+        "vmmem.cpp",
+        "vmmem_wrapper.cpp",
+    ],
+    name: "libvmmem",
+    owner: "qti",
+    proprietary: true,
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-Wextra",
+    ],
+    export_header_lib_headers: [
+        "libvmmem_headers",
+    ],
+    header_libs: [
+        "qti_kernel_headers",
+        "device_kernel_headers",
+        "libvmmem_headers",
+    ],
+    shared_libs: [
+        "liblog",
+        "libbase",
+    ],
+}
+
