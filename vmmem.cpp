@@ -13,22 +13,19 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
-
-#ifdef _UAPI_LINUX_MEM_BUF_H
-#include <linux/mem-buf.h>
-#endif
-
-#ifdef _UAPI_LINUX_QTI_VIRTIO_MEM_H
-#include <linux/qti_virtio_mem.h>
-#endif
-
 #include "vmmem.h"
 #include <syslog.h>
 
-#ifndef _UAPI_LINUX_MEM_BUF_H
+#if __has_include (<linux/qti_virtio_mem.h>)
+#include <linux/qti_virtio_mem.h>
+#endif
+
+#if __has_include (<linux/mem-buf.h>)
+#include <linux/mem-buf.h>
+#else
 struct acl_entry {
-        __u32 vmid;
-        __u32 perms;
+	__u32 vmid;
+	__u32 perms;
 };
 #endif
 
@@ -73,7 +70,7 @@ int VmMem::IsExclusiveOwnerDmabuf(int fd, bool &is_exclusive_owner)
 
     ret = ioctl(mem_buf_fd, MEM_BUF_IOC_EXCLUSIVE_OWNER, &get_ownership);
     if (ret) {
-        LOG(PRI_ERROR, "ioctl(MEM_BUF_IOC_EXCLUSIVE_OWNER) failed, errno: %d");
+        LOG(PRI_ERROR, "ioctl(MEM_BUF_IOC_EXCLUSIVE_OWNER) failed, errno: %d", errno);
 	goto put_mem_buf_fd;
     }
 
