@@ -45,7 +45,9 @@ _rc; })
 
 static constexpr char kMembufPath[] = "/dev/membuf";
 static constexpr char kMembufVmPath[] = "/dev/mem_buf_vm/";
+#if defined(QTI_VIRTIO_MEM_IOC_HINT_CREATE) && !defined(NO_MEMORY_HINT)
 static constexpr char kVirtioMemPath[] = "/dev/qti_virtio_mem";
+#endif
 
 VmMem::VM::~VM()
 {
