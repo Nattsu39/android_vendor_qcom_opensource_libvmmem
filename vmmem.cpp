@@ -130,7 +130,7 @@ int VmMem::PopulateAcl(struct acl_entry *acl, uint32_t nr_acl_entries,
     const VmPerm& vmperms)
 {
     if (vmperms.size() > nr_acl_entries) {
-        LOG(PRI_ERROR, "Invalid number of acl_entries %lu", (vmperms.size()));
+        LOG(PRI_ERROR, "Invalid number of acl_entries %zu", (vmperms.size()));
         return -EINVAL;
     }
 
@@ -416,7 +416,7 @@ int VmMem::MemorySizeHintIoctl(int64_t size, const std::string& name)
 
     virtio_mem_fd = TEMP_FAILURE_RETRY(open(kVirtioMemPath, O_RDONLY | O_CLOEXEC));
     if (virtio_mem_fd < 0) {
-        LOG(PRI_ERROR, "Unable to open %s : %d",  kVirtioMemPath, strerror(errno));
+        LOG(PRI_ERROR, "Unable to open %s : %s",  kVirtioMemPath, strerror(errno));
         return virtio_mem_fd;
     }
 
